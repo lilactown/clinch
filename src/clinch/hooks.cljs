@@ -168,6 +168,31 @@
 (defonce states (atom {}))
 
 (defn useReloadable
+  "A helper hook for constructing hooks that persist their state across
+  hot-reloads.
+
+  You must give it a hook-returning function and a globally unique key.
+  useReloadable will then track the state in a global cache.
+
+  When your app is re-mounted, it will first check the global cache for a value;
+  if one exists, it will use that to initial the hook instead of the initial
+  value.
+
+  `initial` value is passed in as the value of the first mount. Default `nil`.
+  `derive` value is used to derive the state to keep track in the global cache
+  from the return value of the hook. Default is `identity`.
+
+  Example:
+  ```
+  (defn useStateOnce
+  [initial k]
+  (useReloadable
+   (fn useStateOnce* [state] (useState state))
+   k
+   :initial initial
+   :derive first))
+  ```
+  "
   [use-hook k & {:keys [initial derive]
                  :or {initial nil
                       derive identity}}]
@@ -192,10 +217,29 @@
   "Like useState, but maintains your state across hot-reloads. `k` is a globally
   unique key to ensure you always get the same state back.
 
-  Example: `(useStateOnce ::counter 0)`"
+  Example: `(useStateOnce 0 ::counter)`"
   [initial k]
   (useReloadable
    (fn useStateOnce* [state] (useState state))
    k
    :initial initial
    :derive first))
+
+(defn useReducerOnce
+  "Like useReducer, but maintains your state across hot-reloads. `k` is a
+  globally unique key to ensure you always get the same state back.
+
+  Example: `(useReducerOnce reducer {:count 0} ::app-state)`
+  "
+  ([reducer initial k]
+   (useReloadable
+    (fn useReducerOnce* [state] (useReducer reducer state))
+    k
+    :initial initial
+    :derive first))
+  ([reducer initial init k]
+   (useReloadable
+    (fn useReducerOnce* [state] (useReducer reducer state init))
+    k
+    :initial initial
+    :derive first)))
