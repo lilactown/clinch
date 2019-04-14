@@ -1,0 +1,4 @@
+public/test/js/js/
+node_modules/
+.shadow-cljs/
+.nrepl-port

@@ -1,0 +1,38 @@
+{
+  "name": "clinch",
+  "version": "0.0.1",
+  "description": "React Hooks for ClojureScript",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "shadow-cljs watch test",
+    "release": "shadow-cljs release test",
+    "test": "./scripts/test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lokeh/clinch.git"
+  },
+  "author": "Will Acton",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/Lokeh/clinch/issues"
+  },
+  "homepage": "https://github.com/Lokeh/clinch",
+  "devDependencies": {
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-cljs-test": "^0.1.0",
+    "react-testing-library": "^6.0.0",
+    "shadow-cljs": "^2.8.18",
+    "showdown": "^1.8.6"
+  },
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "react-is": "^16.8.1"
+  }
+}
