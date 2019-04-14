@@ -30,8 +30,16 @@
 ;;    ))
 
 (defn useState
-  "Takes an initial value. Returns an atom that will re-render component on
-  change.
+  "Like `React.useState`, but the update function returned can be used similar
+  to `swap!`.
+
+  Example:
+  ```
+  (let [[state set-state] (useState {:count 0})]
+   ;; ...
+   (set-state update :count inc))
+  ```
+
   If `eq?` is passed in, will use that function to determine whether to update
   the React state. If it returns `true`, it will keep the old state, `false` it
   will render with new state."
@@ -132,15 +140,14 @@
   ([f deps]
    (react/useEffect (wrap-fx f) (to-array deps))))
 
-(def ^{:deprecated "Use useEffect"} <-effect useEffect)
-
 (def useContext
   "Just react/useContext"
   react/useContext)
 
-(def useMemo
+(defn useMemo
   "Just react/useMemo"
-  react/useMemo)
+  ([f] (react/useMemo f))
+  ([f deps] (react/useMemo f (to-array deps))))
 
 (defn useCallback
   "Just react/useCallback"
