@@ -2,3 +2,6 @@ public/test/js/js/
 node_modules/
 .shadow-cljs/
 .nrepl-port
+/pom.xml
+/pom.xml.asc
+target/
